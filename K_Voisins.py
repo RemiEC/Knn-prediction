@@ -1,9 +1,9 @@
 import random
 import math
 
-def Ouverture_Fichier():
+def Ouverture_Fichier(nom_fichier):
     #ouverture et lecture du fichier
-    fichier=open("data.csv","r")
+    fichier=open(nom_fichier,"r")
     liste=[]
     temp=[]
     for ligne in fichier:
@@ -118,18 +118,14 @@ def Determination_de_element(liste_voisin_distance):
 
 
 def Algorithme_K_Voisin (k):
-    liste = Ouverture_Fichier()
-    Normalisation(liste,0)
-    Normalisation(liste,1)
-    Normalisation(liste,2)
-    Normalisation(liste,3)
+    liste_base = Ouverture_Fichier('data.csv')
+    liste_valeur_test= Ouverture_Fichier('preTest.csv')
     
-    index_element_a_tester = random.randrange(len(liste))
-    element_a_tester = liste[index_element_a_tester]
-    del liste[index_element_a_tester]
+    index_element_a_tester = random.randrange(len(liste_valeur_test))
+    element_a_tester = liste_valeur_test[index_element_a_tester]
 
 
-    liste_des_k_vsn = Trouver_les_k_voisins(liste,k,element_a_tester)
+    liste_des_k_vsn = Trouver_les_k_voisins(liste_base,k,element_a_tester)
 
     reponse = Determination_de_element(liste_des_k_vsn)
 
@@ -139,8 +135,8 @@ def Algorithme_K_Voisin (k):
 #! Main
 nb_bon = 0
 matrice_resultat = [[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]]
-nb_eval = 50 #on teste 50 fois car la loi des grands nombres est stable vers n=30
-k = 3 #k=3 semble être la valeur à partir de laquelle la précision reste stable
+nb_eval = 100 #on teste 50 fois car la loi des grands nombres est stable vers n=30
+k = 6 #k=6 semble être la valeur à partir de laquelle la précision reste stable
 
 #Calcul des nb_eval tests et entrées dans la matrice de confusion
 for i in range(nb_eval):
