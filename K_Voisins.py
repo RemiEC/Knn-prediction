@@ -118,12 +118,12 @@ def Determination_de_element(liste_voisin_distance):
 
 
 def Algorithme_K_Voisin_matrice (k):
-    liste_base = Ouverture_Fichier('data.csv')
-    liste_valeur_test= Ouverture_Fichier('preTest.csv')
+    liste_base = Ouverture_Fichier('Ensemble_base.csv')
+    liste_valeur_test= Ouverture_Fichier('Ensemble_base.csv')
     
     index_element_a_tester = random.randrange(len(liste_valeur_test))
     element_a_tester = liste_valeur_test[index_element_a_tester]
-
+    del liste_base[index_element_a_tester]
 
     liste_des_k_vsn = Trouver_les_k_voisins(liste_base,k,element_a_tester)
 
@@ -135,7 +135,7 @@ def Algorithme_K_Voisin_matrice (k):
 def Matrice():  
     nb_bon = 0
     matrice_resultat = [[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]]
-    nb_eval = 100 #on teste 50 fois car la loi des grands nombres est stable vers n=30
+    nb_eval = 1000 #on teste 50 fois car la loi des grands nombres est stable vers n=30
     k = 8 #k=6 semble être la valeur à partir de laquelle la précision reste stable
 
     #Calcul des nb_eval tests et entrées dans la matrice de confusion
@@ -206,9 +206,9 @@ def Creation_Fichier_Reponse(fichier_base,fichier_test,k):
     contenu = ''
     for element in liste_test:
         prediction = Algorithme_K_Voisin(k,fichier_base,element)
-        ligne = str(element[0])+';'+str(element[1])+';' + str(element[2])+';'+str(element[3])+';'+ str(prediction) + '\n'
+        ligne =  str(prediction) + '\n'
         contenu+=ligne
-    file = open('reponse.txt','w')
+    file = open('RemiGUILLON_VincentPOUPET.txt','w')
     file.write(contenu)
     file.close()
 
@@ -222,7 +222,7 @@ def Pourcentage_Justesse(fichier_reponse,fichier_prediction):
     print('Le pourcentage de valeurs correctement prédites est '+str(pourcentage) +' %')
     return
 
-Creation_Fichier_Reponse('pretest.csv','data.csv',8)
-Pourcentage_Justesse('data.csv','reponse.txt')
+Creation_Fichier_Reponse('Ensemble_base.csv','finalTest.csv',8)
+
 
 #Matrice()
