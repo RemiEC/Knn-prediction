@@ -208,21 +208,27 @@ def Creation_Fichier_Reponse(fichier_base,fichier_test,k):
         prediction = Algorithme_K_Voisin(k,fichier_base,element)
         ligne =  str(prediction) + '\n'
         contenu+=ligne
-    file = open('RemiGUILLON_VincentPOUPET.txt','w')
+    file = open('test.txt','w')
     file.write(contenu)
     file.close()
 
 def Pourcentage_Justesse(fichier_reponse,fichier_prediction):
-    liste_prediction = Ouverture_Fichier(fichier_prediction)
     liste_reponse = Ouverture_Fichier(fichier_reponse)
+    fichier=open(fichier_prediction,"r")
+    liste_prediction=[]
+    for ligne in fichier:
+        if (ligne != '\n'):
+            liste_prediction.append(ligne.rstrip("\n"))
+    fichier.close()
     total_bon = 0
     for i in range(len(liste_prediction)):
-        if(liste_prediction[i][4]==liste_reponse[i][4]): total_bon+=1
+        if(liste_prediction[i]==liste_reponse[i][4]): total_bon+=1
     pourcentage = float((total_bon/len(liste_prediction))*100)
     print('Le pourcentage de valeurs correctement prédites est '+str(pourcentage) +' %')
     return
 
 Creation_Fichier_Reponse('Ensemble_base.csv','finalTest.csv',8)
+#Pourcentage_Justesse("data.csv","test.txt") Sert à évaluer la réussite de notre évaluation quand on a les résultats
 
 
 #Matrice()
