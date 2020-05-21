@@ -1,6 +1,7 @@
 import random
 import math
 
+#* Fonction d'ouverture des fichiers csv
 def Ouverture_Fichier(nom_fichier):
     #ouverture et lecture du fichier
     fichier=open(nom_fichier,"r")
@@ -14,7 +15,9 @@ def Ouverture_Fichier(nom_fichier):
             liste.append(temp)
     fichier.close()
     return liste
- 
+
+#* Fonction de Normalisation des axes, devrait servir à obtenir de meilleurs résultats 
+#* En réalité nous ne nous en servons pas, elle est très lente et n'améliore pas le résultat voire l'empire
 def Normalisation (tab,axe):
 
     liste = []
@@ -30,6 +33,7 @@ def Normalisation (tab,axe):
         tab[i][axe] = result[i]
     return
 
+#* Détermine les k voisins de l'élément évalué
 def Trouver_les_k_voisins (tab,k,element):
     result = []
     liste_des_distances = []
@@ -60,6 +64,7 @@ def Trouver_les_k_voisins (tab,k,element):
 
     return result
 
+#* Donne notre prédiction en foncion de la liste des k voisins qu'on observe
 def Determination_de_element(liste_voisin_distance):
 
     A = 0
@@ -116,7 +121,7 @@ def Determination_de_element(liste_voisin_distance):
     reponse = max(zip(dico_reponse.values(),dico_reponse.keys()))
     return reponse[1]
 
-
+#* Algorithme KNN pour la matrice de confusion
 def Algorithme_K_Voisin_matrice (k):
     liste_base = Ouverture_Fichier('Ensemble_base.csv')
     liste_valeur_test= Ouverture_Fichier('Ensemble_base.csv')
@@ -131,7 +136,7 @@ def Algorithme_K_Voisin_matrice (k):
 
     return (reponse,element_a_tester[4])
 
-
+#* Affichage de la matrice de confusion, utilisé sur le prototype de KNN final pour nos tests
 def Matrice():  
     nb_bon = 0
     matrice_resultat = [[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]]
@@ -187,7 +192,7 @@ def Matrice():
     print('I  |   ' + str(matrice_resultat[8][0]) + '   |   ' + str(matrice_resultat[8][1]) + '   |   ' + str(matrice_resultat[8][2]) + '   |   ' + str(matrice_resultat[8][3])+ '   |   ' + str(matrice_resultat[8][4])+ '   |   ' + str(matrice_resultat[8][5])+ '   |   ' + str(matrice_resultat[8][6])+ '   |   ' + str(matrice_resultat[8][7])+ '   |   ' + str(matrice_resultat[8][8])+ '   |   ' + str(matrice_resultat[8][9]))
     print('J  |   ' + str(matrice_resultat[9][0]) + '   |   ' + str(matrice_resultat[9][1]) + '   |   ' + str(matrice_resultat[9][2]) + '   |   ' + str(matrice_resultat[9][3])+ '   |   ' + str(matrice_resultat[9][4])+ '   |   ' + str(matrice_resultat[9][5])+ '   |   ' + str(matrice_resultat[9][6])+ '   |   ' + str(matrice_resultat[9][7])+ '   |   ' + str(matrice_resultat[9][8])+ '   |   ' + str(matrice_resultat[9][9]))
 
-
+#* Algorithme KNN qui return la réponse, utilisé pour la création du fichier de réponse
 def Algorithme_K_Voisin(k,fichier_base,element_a_tester):
 
     liste_base = Ouverture_Fichier(fichier_base)
@@ -200,6 +205,7 @@ def Algorithme_K_Voisin(k,fichier_base,element_a_tester):
 
     return (reponse)
 
+#* Sert à créer notre fichier de réponse
 def Creation_Fichier_Reponse(fichier_base,fichier_test,k):
 
     liste_test = Ouverture_Fichier(fichier_test)
@@ -208,10 +214,11 @@ def Creation_Fichier_Reponse(fichier_base,fichier_test,k):
         prediction = Algorithme_K_Voisin(k,fichier_base,element)
         ligne =  str(prediction) + '\n'
         contenu+=ligne
-    file = open('test.txt','w')
+    file = open('GUILLONBONY_POUPET.txt','w')
     file.write(contenu)
     file.close()
 
+#* Sert à évaluer la réussite de notre évaluation quand on a les résultats
 def Pourcentage_Justesse(fichier_reponse,fichier_prediction):
     liste_reponse = Ouverture_Fichier(fichier_reponse)
     fichier=open(fichier_prediction,"r")
@@ -228,7 +235,7 @@ def Pourcentage_Justesse(fichier_reponse,fichier_prediction):
     return
 
 Creation_Fichier_Reponse('Ensemble_base.csv','finalTest.csv',8)
-#Pourcentage_Justesse("data.csv","test.txt") Sert à évaluer la réussite de notre évaluation quand on a les résultats
+#Pourcentage_Justesse("data.csv","test.txt") 
 
 
 #Matrice()
